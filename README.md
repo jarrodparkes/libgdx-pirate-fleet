@@ -1,4 +1,4 @@
-#Tic-Tac-Toe
+#Pirate Fleet
 
 ![Platforms iOS|Android|Desktop|Web](https://img.shields.io/badge/platforms-iOS | Android | Desktop | Web-blue.svg)
 

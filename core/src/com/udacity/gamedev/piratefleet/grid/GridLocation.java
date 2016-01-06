@@ -4,37 +4,41 @@ public class GridLocation {
 
     public static final String TAG = GridLocation.class.getName();
 
-    int r;
-    int c;
+    int row;
+    int col;
 
     public GridLocation(GridLocation position) {
-        this.r = position.r;
-        this.c = position.c;
+        this.row = position.row;
+        this.col = position.col;
     }
 
     public GridLocation(int r, int c) {
-        this.r = r;
-        this.c = c;
+        this.row = r;
+        this.col = c;
     }
 
     @Override
     public String toString() {
-        return "r: " + r + ", c: " + c;
+        return "r: " + row + ", c: " + col;
     }
 
     public int getRow() {
-        return r;
+        return row;
     }
 
     public int getColumn() {
-        return c;
+        return col;
     }
 
     public void setRow(int r) {
-        this.r = r;
+        this.row = r;
     }
 
     public void setColumn(int c) {
-        this.c = c;
+        this.col = c;
+    }
+
+    public GridLocation locationFromOffset(int row, int col) {
+        return new GridLocation(this.row + row, this.col + col);
     }
 }

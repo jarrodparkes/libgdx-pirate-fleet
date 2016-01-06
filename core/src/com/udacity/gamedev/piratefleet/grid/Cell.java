@@ -20,14 +20,20 @@ public class Cell {
     }
 
     public void render(float delta, ShapeRenderer renderer, Vector2 position) {
+        renderer.begin(ShapeRenderer.ShapeType.Line);
+        renderer.setColor(Constants.GRID_CELL_COLOR);
         renderer.rect(position.x, position.y, Constants.GRID_CELL_SIZE, Constants.GRID_CELL_SIZE);
-        if (object == null) {
-            renderer.setColor(Color.GREEN);
-            renderer.rect(position.x + Constants.GRID_CELL_SIZE/4, position.y + Constants.GRID_CELL_SIZE/4, Constants.GRID_CELL_SIZE/2, Constants.GRID_CELL_SIZE/2);
-        } else {
-            renderer.setColor(Color.RED);
-            renderer.rect(position.x + Constants.GRID_CELL_SIZE/4, position.y + Constants.GRID_CELL_SIZE/4, Constants.GRID_CELL_SIZE/2, Constants.GRID_CELL_SIZE/2);
+        renderer.end();
+
+        if (object != null) {
+            object.render(delta, renderer, position);
         }
+//            renderer.setColor(Color.GREEN);
+//            renderer.rect(position.x + Constants.GRID_CELL_SIZE/4, position.y + Constants.GRID_CELL_SIZE/4, Constants.GRID_CELL_SIZE/2, Constants.GRID_CELL_SIZE/2);
+//        } else {
+//            renderer.setColor(Color.RED);
+//            renderer.rect(position.x + Constants.GRID_CELL_SIZE/4, position.y + Constants.GRID_CELL_SIZE/4, Constants.GRID_CELL_SIZE/2, Constants.GRID_CELL_SIZE/2);
+//        }
         renderer.setColor(Color.WHITE);
     }
 }

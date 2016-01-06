@@ -1,5 +1,6 @@
 package com.udacity.gamedev.piratefleet.grid;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -30,13 +31,32 @@ public class Grid {
     }
 
     public void addObject(GridObject object) {
-        cells.get(object.location.r).get(object.location.c).object = object;
+
+        Array<GridLocation> targetLocations = object.locations();
+
+        if (locationsFree(targetLocations)) {
+            for (GridLocation location: targetLocations) {
+                Cell targetCell = cells.get(location.row).get(location.col);
+                targetCell.object = object;
+            }
+        } else {
+            Gdx.app.log(TAG, "cells unavailable, cannot add object");
+        }
+    }
+
+    public boolean locationsFree(Array<GridLocation> locations) {
+        for (GridLocation location: locations) {
+            Cell targetCell = cells.get(location.row).get(location.col);
+            if (targetCell.object != null) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public void render(float delta, ShapeRenderer renderer) {
-        renderer.setColor(Constants.GRID_COLOR);
-        float cellSize = Constants.GRID_CELL_SIZE;
 
+        float cellSize = Constants.GRID_CELL_SIZE;
         Vector2 topLeftCorner = new Vector2(center.x - cellSize * (Constants.GRID_SIZE / 2),
                 center.y + (cellSize * (Constants.GRID_SIZE / 2 - 1)));
         Vector2 offset = new Vector2(topLeftCorner);

@@ -17,6 +17,8 @@ import com.udacity.gamedev.piratefleet.grid.GridLocation;
 import com.udacity.gamedev.piratefleet.grid.GridObject;
 import com.udacity.gamedev.piratefleet.grid.Ship;
 
+import java.util.Arrays;
+
 public class PirateFleetScreen extends InputAdapter implements Screen {
 
     public static final String TAG = PirateFleetScreen.class.getName();
@@ -48,7 +50,9 @@ public class PirateFleetScreen extends InputAdapter implements Screen {
 
         // setup grid
         Array<GridObject> objects = new Array<GridObject>();
-        objects.add(new Ship(new GridLocation(4, 0), 1));
+        objects.add(new Ship(new GridLocation(4, 0), 3, Ship.Orientation.HORIZONTAL));
+        objects.add(new Ship(new GridLocation(2, 6), 3, Ship.Orientation.VERTICAL));
+
         grid = new Grid(
                 new Vector2(Constants.WORLD_SIZE.x / 4, Constants.WORLD_SIZE.y * 5/8),
                 objects
@@ -84,7 +88,6 @@ public class PirateFleetScreen extends InputAdapter implements Screen {
         viewport.apply();
         renderer.setProjectionMatrix(viewport.getCamera().combined);
         // draw world
-        renderer.begin(ShapeRenderer.ShapeType.Line);
         grid.render(delta, renderer);
         grid2.render(delta, renderer);
         renderer.end();

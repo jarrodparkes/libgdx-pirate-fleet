@@ -34,8 +34,7 @@ public class PirateFleetScreen extends InputAdapter implements Screen {
 
     // game data
     PirateFleetGame game;
-    Grid grid;
-    Grid grid2;
+    GameManager manager;
 
     public PirateFleetScreen(PirateFleetGame game) {
         this.game = game;
@@ -47,18 +46,7 @@ public class PirateFleetScreen extends InputAdapter implements Screen {
         renderer = new ShapeRenderer();
         renderer.setAutoShapeType(true);
         viewport = new ExtendViewport(Constants.WORLD_SIZE.x, Constants.WORLD_SIZE.y);
-
-        // setup grid
-        Array<GridObject> objects = new Array<GridObject>();
-        objects.add(new Ship(new GridLocation(4, 0), 3, Ship.Orientation.HORIZONTAL));
-        objects.add(new Ship(new GridLocation(2, 6), 3, Ship.Orientation.VERTICAL));
-
-        grid = new Grid(
-                new Vector2(Constants.WORLD_SIZE.x / 4, Constants.WORLD_SIZE.y * 5/8),
-                objects
-        );
-        grid2 = new Grid(new Vector2(Constants.WORLD_SIZE.x * 3/4, Constants.WORLD_SIZE.y * 5/8), new Array<GridObject>());
-
+        manager = new GameManager();
         // setup HUD
         batch = new SpriteBatch();
         textViewport = new ScreenViewport();
@@ -88,8 +76,7 @@ public class PirateFleetScreen extends InputAdapter implements Screen {
         viewport.apply();
         renderer.setProjectionMatrix(viewport.getCamera().combined);
         // draw world
-        grid.render(delta, renderer);
-        grid2.render(delta, renderer);
+        manager.render(delta, renderer);
         renderer.end();
     }
 

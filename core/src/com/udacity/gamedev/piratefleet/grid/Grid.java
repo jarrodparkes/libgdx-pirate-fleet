@@ -11,6 +11,7 @@ public class Grid {
     public static final String TAG = Grid.class.getName();
 
     Array<Array<Cell>> cells;
+    Array<GridObject> objects;
     Vector2 center;
 
     public Grid(Vector2 center, Array<GridObject> objects) {
@@ -25,6 +26,7 @@ public class Grid {
             cells.add(row);
         }
         // add objects to cells
+        this.objects = objects;
         for (GridObject object: objects) {
             addObject(object);
         }

@@ -2,6 +2,9 @@ package com.udacity.gamedev.piratefleet;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.ObjectMap;
+import com.udacity.gamedev.piratefleet.grid.Ship;
 
 public class Constants {
 
@@ -27,5 +30,15 @@ public class Constants {
     public static final String EASY_LABEL = "Easy";
     public static final String MEDIUM_LABEL = "Medium";
     public static final String HARD_LABEL = "Hard";
+
+    public enum ShipSize {
+        SMALL(2, 1), MEDIUM(3, 2), LARGE(4, 1), XLARGE(5, 1);
+        int length;
+        int numRequired;
+        ShipSize(int length, int numRequired) {
+            this.length = length;
+            this.numRequired = numRequired;
+        }
+    }
 
 }

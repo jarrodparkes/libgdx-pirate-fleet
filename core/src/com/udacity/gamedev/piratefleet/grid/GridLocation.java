@@ -1,5 +1,8 @@
 package com.udacity.gamedev.piratefleet.grid;
 
+import com.badlogic.gdx.math.MathUtils;
+import com.udacity.gamedev.piratefleet.Constants;
+
 public class GridLocation {
 
     public static final String TAG = GridLocation.class.getName();
@@ -40,5 +43,11 @@ public class GridLocation {
 
     public GridLocation locationFromOffset(int row, int col) {
         return new GridLocation(this.row + row, this.col + col);
+    }
+
+    public static GridLocation randomLocation() {
+        int randomRow = MathUtils.random(0, Constants.GRID_SIZE - 1);
+        int randomCol = MathUtils.random(0, Constants.GRID_SIZE - 1);
+        return new GridLocation(randomRow, randomCol);
     }
 }

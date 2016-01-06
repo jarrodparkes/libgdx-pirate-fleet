@@ -7,6 +7,10 @@ public class Constants {
 
     public static final Vector2 WORLD_SIZE = new Vector2(16f, 9f);
 
+    public static final Color GRID_COLOR = Color.WHITE;
+    public static final int GRID_SIZE = 10;
+    public static final float GRID_CELL_SIZE = WORLD_SIZE.x / 32;
+
     public static final float HUD_FONT_REFERENCE_SCREEN_WIDTH = 480.0f;
 
     public static final Color BACKGROUND_COLOR = Color.BLUE;

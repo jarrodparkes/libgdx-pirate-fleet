@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -11,6 +13,9 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.udacity.gamedev.piratefleet.grid.Grid;
+import com.udacity.gamedev.piratefleet.grid.GridLocation;
+import com.udacity.gamedev.piratefleet.grid.GridObject;
+import com.udacity.gamedev.piratefleet.grid.Ship;
 
 public class PirateFleetScreen extends InputAdapter implements Screen {
 
@@ -27,6 +32,8 @@ public class PirateFleetScreen extends InputAdapter implements Screen {
 
     // game data
     PirateFleetGame game;
+    Grid grid;
+    Grid grid2;
 
     public PirateFleetScreen(PirateFleetGame game) {
         this.game = game;
@@ -39,7 +46,14 @@ public class PirateFleetScreen extends InputAdapter implements Screen {
         renderer.setAutoShapeType(true);
         viewport = new ExtendViewport(Constants.WORLD_SIZE.x, Constants.WORLD_SIZE.y);
 
-        Grid grid = new Grid();
+        // setup grid
+        Array<GridObject> objects = new Array<GridObject>();
+        objects.add(new Ship(new GridLocation(4, 0), 1));
+        grid = new Grid(
+                new Vector2(Constants.WORLD_SIZE.x / 4, Constants.WORLD_SIZE.y * 5/8),
+                objects
+        );
+        grid2 = new Grid(new Vector2(Constants.WORLD_SIZE.x * 3/4, Constants.WORLD_SIZE.y * 5/8), new Array<GridObject>());
 
         // setup HUD
         batch = new SpriteBatch();
@@ -70,7 +84,9 @@ public class PirateFleetScreen extends InputAdapter implements Screen {
         viewport.apply();
         renderer.setProjectionMatrix(viewport.getCamera().combined);
         // draw world
-        renderer.begin(ShapeRenderer.ShapeType.Filled);
+        renderer.begin(ShapeRenderer.ShapeType.Line);
+        grid.render(delta, renderer);
+        grid2.render(delta, renderer);
         renderer.end();
     }
 

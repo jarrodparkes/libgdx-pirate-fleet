@@ -17,24 +17,93 @@ public class Ship extends GridObject {
     int length;
     Orientation orientation;
 
-    public Ship(GridLocation location, int length, Orientation orientation) {
-        super(location);
+    public Ship(Grid grid, int r, int c, int length, Orientation orientation) {
+        super(grid, grid.cellAtLocation(r, c));
         this.length = length;
         this.orientation = orientation;
     }
 
-    public void render(float delta, ShapeRenderer renderer, Vector2 position) {
+    public int getLength() {
+        return length;
+    }
+
+    public Orientation getOrientation() {
+        return orientation;
+    }
+
+    @Override
+    public String toString() {
+        String debugString = "r: " + origin.row + " c: " + origin.col;
+        debugString += "\nlength: " + length;
+        debugString += "\norientation: " + orientation;
+        return debugString;
+    }
+
+    public void render(float delta, ShapeRenderer renderer) {
         renderer.begin(ShapeRenderer.ShapeType.Filled);
         renderer.setColor(Color.BLACK);
-        renderer.rect(position.x + Constants.GRID_CELL_SIZE/4, position.y + Constants.GRID_CELL_SIZE/4, Constants.GRID_CELL_SIZE/2, Constants.GRID_CELL_SIZE/2);
+        int index = 0;
+
+        for (Cell location: locations()) {
+            if (index == 0) {
+                switch(orientation) {
+                    case HORIZONTAL:
+                        renderer.triangle(
+                                location.position.x + Constants.GRID_CELL_SIZE * 3/4,
+                                location.position.y + Constants.GRID_CELL_SIZE * 3/4,
+                                location.position.x + Constants.GRID_CELL_SIZE * 3/4,
+                                location.position.y + Constants.GRID_CELL_SIZE / 4,
+                                location.position.x + Constants.GRID_CELL_SIZE / 4,
+                                location.position.y + Constants.GRID_CELL_SIZE / 2
+                        );
+                        break;
+                    case VERTICAL:
+                        renderer.triangle(
+                            location.position.x + Constants.GRID_CELL_SIZE / 4,
+                            location.position.y + Constants.GRID_CELL_SIZE / 4,
+                            location.position.x + Constants.GRID_CELL_SIZE * 3/4,
+                            location.position.y + Constants.GRID_CELL_SIZE / 4,
+                            location.position.x + Constants.GRID_CELL_SIZE / 2,
+                            location.position.y + Constants.GRID_CELL_SIZE * 3/4
+                        );
+                        break;
+                }
+            } else if(index != locations().size - 1)
+                renderer.rect(location.position.x + Constants.GRID_CELL_SIZE / 4, location.position.y + Constants.GRID_CELL_SIZE / 4, Constants.GRID_CELL_SIZE / 2, Constants.GRID_CELL_SIZE / 2);
+            else {
+                switch(orientation) {
+                    case HORIZONTAL:
+                        renderer.triangle(
+                                location.position.x + Constants.GRID_CELL_SIZE * 3/4,
+                                location.position.y + Constants.GRID_CELL_SIZE / 2,
+                                location.position.x + Constants.GRID_CELL_SIZE / 4,
+                                location.position.y + Constants.GRID_CELL_SIZE * 3/4,
+                                location.position.x + Constants.GRID_CELL_SIZE / 4,
+                                location.position.y + Constants.GRID_CELL_SIZE / 4
+                        );
+                        break;
+                    case VERTICAL:
+                        renderer.triangle(
+                                location.position.x + Constants.GRID_CELL_SIZE / 4,
+                                location.position.y + Constants.GRID_CELL_SIZE * 3/4,
+                                location.position.x + Constants.GRID_CELL_SIZE * 3/4,
+                                location.position.y + Constants.GRID_CELL_SIZE * 3/4,
+                                location.position.x + Constants.GRID_CELL_SIZE / 2,
+                                location.position.y + Constants.GRID_CELL_SIZE / 4
+                        );
+                        break;
+                }
+            }
+            index += 1;
+        }
         renderer.end();
     }
 
-    public Array<GridLocation> locations() {
-        Array<GridLocation> cells = new Array<GridLocation>();
+    public Array<Cell> locations() {
+        Array<Cell> cells = new Array<Cell>();
         for (int i = 0; i < length; ++i) {
-            GridLocation location = (orientation == Orientation.HORIZONTAL) ?
-                    origin.locationFromOffset(0, i) : origin.locationFromOffset(i, 0);
+            Cell location = (orientation == Orientation.HORIZONTAL) ?
+                    grid.cellFromOffset(origin, 0, i) : grid.cellFromOffset(origin, i, 0);
             cells.add(location);
         }
         return cells;

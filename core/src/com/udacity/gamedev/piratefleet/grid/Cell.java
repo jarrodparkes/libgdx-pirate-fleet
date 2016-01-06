@@ -1,6 +1,5 @@
 package com.udacity.gamedev.piratefleet.grid;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.udacity.gamedev.piratefleet.Constants;
@@ -9,31 +8,40 @@ public class Cell {
 
     public static final String TAG = Cell.class.getName();
 
+    Vector2 position;
     GridObject object;
 
-    public Cell() {
-        this.object = null;
+    int row;
+    int col;
+
+    public Cell(Vector2 position, int row, int col) {
+        this.position = position;
+        object = null;
+        this.row = row;
+        this.col = col;
     }
 
-    public Cell(GridObject object) {
-        this.object = object;
+    @Override
+    public String toString() {
+        return "r: " + row + ", c: " + col;
     }
 
-    public void render(float delta, ShapeRenderer renderer, Vector2 position) {
+    public int getRow() {
+        return row;
+    }
+
+    public int getColumn() {
+        return col;
+    }
+
+    public GridObject getObject() {
+        return object;
+    }
+
+    public void render(float delta, ShapeRenderer renderer) {
         renderer.begin(ShapeRenderer.ShapeType.Line);
         renderer.setColor(Constants.GRID_CELL_COLOR);
         renderer.rect(position.x, position.y, Constants.GRID_CELL_SIZE, Constants.GRID_CELL_SIZE);
         renderer.end();
-
-        if (object != null) {
-            object.render(delta, renderer, position);
-        }
-//            renderer.setColor(Color.GREEN);
-//            renderer.rect(position.x + Constants.GRID_CELL_SIZE/4, position.y + Constants.GRID_CELL_SIZE/4, Constants.GRID_CELL_SIZE/2, Constants.GRID_CELL_SIZE/2);
-//        } else {
-//            renderer.setColor(Color.RED);
-//            renderer.rect(position.x + Constants.GRID_CELL_SIZE/4, position.y + Constants.GRID_CELL_SIZE/4, Constants.GRID_CELL_SIZE/2, Constants.GRID_CELL_SIZE/2);
-//        }
-        renderer.setColor(Color.WHITE);
     }
 }

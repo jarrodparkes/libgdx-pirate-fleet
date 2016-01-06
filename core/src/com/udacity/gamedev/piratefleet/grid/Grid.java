@@ -1,6 +1,7 @@
 package com.udacity.gamedev.piratefleet.grid;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -14,30 +15,36 @@ public class Grid {
     Array<GridObject> objects;
     Vector2 center;
 
-    public Grid(Vector2 center, Array<GridObject> objects) {
+    public Grid(Vector2 center) {
         this.center = center;
-        // create cells
         cells = new Array<Array<Cell>>();
+        objects = new Array<GridObject>();
+
+        // for generating locations...
+        float cellSize = Constants.GRID_CELL_SIZE;
+        Vector2 topLeftCorner = new Vector2(center.x - cellSize * (Constants.GRID_SIZE / 2),
+                center.y + (cellSize * (Constants.GRID_SIZE / 2 - 1)));
+        Vector2 offset = new Vector2(topLeftCorner);
+
+        // create cells with location
         for (int r = 0; r < 10; r++) {
+            offset.x = topLeftCorner.x;
             Array<Cell> row = new Array<Cell>();
             for (int c = 0; c < 10; c++) {
-                row.add(new Cell());
+                row.add(new Cell(new Vector2(offset), r, c));
+                offset.x += cellSize;
             }
             cells.add(row);
-        }
-        // add objects to cells
-        this.objects = objects;
-        for (GridObject object: objects) {
-            addObject(object);
+            offset.y -= cellSize;
         }
     }
 
     public void addObject(GridObject object) {
-
-        Array<GridLocation> targetLocations = object.locations();
-
+        Array<Cell> targetLocations = object.locations();
         if (locationsFree(targetLocations)) {
-            for (GridLocation location: targetLocations) {
+            objects.add(object);
+            object.grid = this;
+            for (Cell location: targetLocations) {
                 Cell targetCell = cells.get(location.row).get(location.col);
                 targetCell.object = object;
             }
@@ -46,8 +53,8 @@ public class Grid {
         }
     }
 
-    public boolean locationsFree(Array<GridLocation> locations) {
-        for (GridLocation location: locations) {
+    public boolean locationsFree(Array<Cell> locations) {
+        for (Cell location: locations) {
             Cell targetCell = cells.get(location.row).get(location.col);
             if (targetCell.object != null) {
                 return false;
@@ -57,19 +64,29 @@ public class Grid {
     }
 
     public void render(float delta, ShapeRenderer renderer) {
-
-        float cellSize = Constants.GRID_CELL_SIZE;
-        Vector2 topLeftCorner = new Vector2(center.x - cellSize * (Constants.GRID_SIZE / 2),
-                center.y + (cellSize * (Constants.GRID_SIZE / 2 - 1)));
-        Vector2 offset = new Vector2(topLeftCorner);
-
+        // render cells
         for (Array<Cell> row: cells) {
-            offset.x = topLeftCorner.x;
             for (Cell cell: row) {
-                cell.render(delta, renderer, new Vector2(offset.x, offset.y));
-                offset.x += cellSize;
+                cell.render(delta, renderer);
             }
-            offset.y -= cellSize;
         }
+        // render objects
+        for (GridObject object: objects) {
+            object.render(delta, renderer);
+        }
+    }
+
+    public Cell cellAtLocation(int r, int c) {
+        return cells.get(r).get(c);
+    }
+
+    public Cell cellFromOffset(Cell origin, int r, int c) {
+        return cells.get(r + origin.getRow()).get(c + origin.getColumn());
+    }
+
+    public Cell randomCell() {
+        int randomRow = MathUtils.random(0, Constants.GRID_SIZE - 1);
+        int randomCol = MathUtils.random(0, Constants.GRID_SIZE - 1);
+        return cellAtLocation(randomRow, randomCol);
     }
 }

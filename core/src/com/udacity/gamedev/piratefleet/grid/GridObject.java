@@ -6,13 +6,25 @@ import com.badlogic.gdx.utils.Array;
 
 public abstract class GridObject {
 
-    GridLocation origin;
+    public static final String TAG = GridObject.class.getName();
 
-    public GridObject(GridLocation origin) {
+    Grid grid;
+    Cell origin;
+
+    public GridObject(Grid grid, Cell origin) {
+        this.grid = grid;
         this.origin = origin;
     }
 
-    public abstract void render(float delta, ShapeRenderer renderer, Vector2 position);
+    public Cell getOrigin() {
+        return origin;
+    }
 
-    public abstract Array<GridLocation> locations();
+    public Grid getGrid() {
+        return grid;
+    }
+
+    public abstract void render(float delta, ShapeRenderer renderer);
+
+    public abstract Array<Cell> locations();
 }

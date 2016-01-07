@@ -41,53 +41,66 @@ public class Ship extends GridObject {
 
     public void render(float delta, ShapeRenderer renderer) {
         renderer.begin(ShapeRenderer.ShapeType.Filled);
-        renderer.setColor(Color.BLACK);
+        renderer.setColor(Constants.SHIP_COLOR);
         int index = 0;
 
         for (Cell location: locations()) {
             if (index == 0) {
                 switch(orientation) {
                     case HORIZONTAL:
+                        // < triangle
                         renderer.triangle(
-                                location.position.x + Constants.GRID_CELL_SIZE * 3/4,
-                                location.position.y + Constants.GRID_CELL_SIZE * 3/4,
-                                location.position.x + Constants.GRID_CELL_SIZE * 3/4,
-                                location.position.y + Constants.GRID_CELL_SIZE / 4,
+                                location.position.x + Constants.GRID_CELL_SIZE,
+                                location.position.y + Constants.GRID_CELL_SIZE * 7/8,
+                                location.position.x + Constants.GRID_CELL_SIZE,
+                                location.position.y + Constants.GRID_CELL_SIZE * 1/8,
                                 location.position.x + Constants.GRID_CELL_SIZE / 4,
                                 location.position.y + Constants.GRID_CELL_SIZE / 2
                         );
                         break;
                     case VERTICAL:
+                        // ^ triangle
                         renderer.triangle(
-                            location.position.x + Constants.GRID_CELL_SIZE / 4,
-                            location.position.y + Constants.GRID_CELL_SIZE / 4,
-                            location.position.x + Constants.GRID_CELL_SIZE * 3/4,
-                            location.position.y + Constants.GRID_CELL_SIZE / 4,
+                            location.position.x + Constants.GRID_CELL_SIZE * 1/8,
+                            location.position.y,
+                            location.position.x + Constants.GRID_CELL_SIZE * 7/8,
+                            location.position.y,
                             location.position.x + Constants.GRID_CELL_SIZE / 2,
                             location.position.y + Constants.GRID_CELL_SIZE * 3/4
                         );
                         break;
                 }
             } else if(index != locations().size - 1)
-                renderer.rect(location.position.x + Constants.GRID_CELL_SIZE / 4, location.position.y + Constants.GRID_CELL_SIZE / 4, Constants.GRID_CELL_SIZE / 2, Constants.GRID_CELL_SIZE / 2);
+                switch(orientation) {
+                    case HORIZONTAL:
+                        // middle section left-to-right
+                        renderer.rect(location.position.x, location.position.y + Constants.GRID_CELL_SIZE / 8, Constants.GRID_CELL_SIZE, Constants.GRID_CELL_SIZE * 6/8);
+                        break;
+                    case VERTICAL:
+                        // middle section up-and-down
+                        renderer.rect(location.position.x + Constants.GRID_CELL_SIZE / 8, location.position.y, Constants.GRID_CELL_SIZE * 6/8, Constants.GRID_CELL_SIZE);
+                        break;
+                }
             else {
                 switch(orientation) {
                     case HORIZONTAL:
+                        // > triangle
                         renderer.triangle(
                                 location.position.x + Constants.GRID_CELL_SIZE * 3/4,
                                 location.position.y + Constants.GRID_CELL_SIZE / 2,
-                                location.position.x + Constants.GRID_CELL_SIZE / 4,
-                                location.position.y + Constants.GRID_CELL_SIZE * 3/4,
-                                location.position.x + Constants.GRID_CELL_SIZE / 4,
-                                location.position.y + Constants.GRID_CELL_SIZE / 4
+                                location.position.x,
+                                location.position.y + Constants.GRID_CELL_SIZE * 7/8,
+                                location.position.x,
+                                location.position.y + Constants.GRID_CELL_SIZE * 1/8
                         );
                         break;
                     case VERTICAL:
+                        // v triangle
                         renderer.triangle(
-                                location.position.x + Constants.GRID_CELL_SIZE / 4,
-                                location.position.y + Constants.GRID_CELL_SIZE * 3/4,
-                                location.position.x + Constants.GRID_CELL_SIZE * 3/4,
-                                location.position.y + Constants.GRID_CELL_SIZE * 3/4,
+                                location.position.x + Constants.GRID_CELL_SIZE * 1/8,
+                                location.position.y + Constants.GRID_CELL_SIZE,
+                                location.position.x + Constants.GRID_CELL_SIZE * 7/8,
+                                location.position.y + Constants.GRID_CELL_SIZE,
                                 location.position.x + Constants.GRID_CELL_SIZE / 2,
                                 location.position.y + Constants.GRID_CELL_SIZE / 4
                         );

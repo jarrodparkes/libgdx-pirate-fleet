@@ -16,8 +16,7 @@ public class Constants {
 
     public static final float HUD_FONT_REFERENCE_SCREEN_WIDTH = 480.0f;
 
-    public static final Color BACKGROUND_COLOR = Color.BLUE;
-
+    public static final Color BACKGROUND_COLOR = new Color(0.11f, 0.68f, 0.93f, 1);
     public static final float SETTINGS_WORLD_SIZE = 480.0f;
     public static final float SETTINGS_BUBBLE_RADIUS = SETTINGS_WORLD_SIZE / 8.5f;
     public static final Color SETTINGS_BUBBLE_COLOR = new Color(0.2f, 0.2f, 1, 1);
@@ -30,6 +29,8 @@ public class Constants {
     public static final String EASY_LABEL = "Easy";
     public static final String MEDIUM_LABEL = "Medium";
     public static final String HARD_LABEL = "Hard";
+
+    public static final Color SHIP_COLOR = new Color(0.31f, 0.31f, 0.31f, 1);
 
     public enum ShipSize {
         SMALL(2, 1), MEDIUM(3, 2), LARGE(4, 1), XLARGE(5, 1);

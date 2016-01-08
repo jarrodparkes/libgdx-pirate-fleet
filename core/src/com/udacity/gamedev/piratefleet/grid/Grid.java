@@ -39,6 +39,10 @@ public class Grid {
         }
     }
 
+    public Array<GridObject> getObjects() {
+        return objects;
+    }
+
     public void addObject(GridObject object) {
         Array<Cell> targetLocations = object.locations();
         if (locationsFree(targetLocations)) {

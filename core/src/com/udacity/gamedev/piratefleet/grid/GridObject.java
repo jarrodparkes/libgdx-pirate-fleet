@@ -26,6 +26,10 @@ public abstract class GridObject {
         return origin;
     }
 
+    public boolean isRevealed() {
+        return revealed;
+    }
+
     public void setRevealed(boolean revealed) {
         this.revealed = revealed;
     }

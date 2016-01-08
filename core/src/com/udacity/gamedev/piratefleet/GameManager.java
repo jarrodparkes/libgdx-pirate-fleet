@@ -89,7 +89,20 @@ public class GameManager {
     public void handleTouch(Vector2 worldTouch) {
         if (comGrid.touchInGrid(worldTouch)) {
             Cell targetCell = comGrid.cellAtTouch(worldTouch);
-            humanPlayer.attackGrid(comGrid, targetCell);
+            boolean hit = humanPlayer.attackGrid(comGrid, targetCell);
+            if (hit) {
+                boolean gameOver = true;
+                for (GridObject object: comGrid.getObjects()) {
+                    if (object.allLocationsHit() == false) {
+                        gameOver = false;
+                        break;
+                    }
+                }
+
+                if (gameOver) {
+                    Gdx.app.log(TAG, "game over!");
+                }
+            }
         }
     }
 }

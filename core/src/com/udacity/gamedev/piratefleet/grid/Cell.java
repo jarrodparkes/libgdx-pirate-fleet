@@ -10,18 +10,11 @@ import com.udacity.gamedev.piratefleet.Constants;
 public class Cell {
 
     public static final String TAG = Cell.class.getName();
-
-    public enum CellState {
-        UNTOUCHED, HIT, MISS
-    }
-
     Vector2 position;
     GridObject object;
     CellState state;
-
     int row;
     int col;
-
     public Cell(Vector2 position, int row, int col) {
         this.position = position;
         this.row = row;
@@ -89,5 +82,9 @@ public class Cell {
         );
         renderer.end();
         Gdx.gl.glDisable(GL20.GL_BLEND);
+    }
+
+    public enum CellState {
+        UNTOUCHED, HIT, MISS
     }
 }

@@ -1,21 +1,12 @@
 package com.udacity.gamedev.piratefleet.grid;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.graphics.Color;
 import com.udacity.gamedev.piratefleet.Constants;
 
 public class Ship extends GridObject {
 
     public static final String TAG = Ship.class.getName();
-
-    public enum Orientation {
-        VERTICAL, HORIZONTAL
-    }
-
     int length;
     Orientation orientation;
 
@@ -42,7 +33,7 @@ public class Ship extends GridObject {
     }
 
     public void render(float delta, ShapeRenderer renderer) {
-        if (revealed == false) {
+        if (!revealed) {
             return;
         }
 
@@ -50,16 +41,16 @@ public class Ship extends GridObject {
         renderer.setColor(Constants.SHIP_COLOR);
         // draw portion of ship in each location
         int index = 0;
-        for (Cell location: locations()) {
+        for (Cell location : locations()) {
             if (index == 0) {
-                switch(orientation) {
+                switch (orientation) {
                     case HORIZONTAL:
                         // < triangle
                         renderer.triangle(
                                 location.position.x + Constants.GRID_CELL_SIZE,
-                                location.position.y + Constants.GRID_CELL_SIZE * 7/8,
+                                location.position.y + Constants.GRID_CELL_SIZE * 7 / 8,
                                 location.position.x + Constants.GRID_CELL_SIZE,
-                                location.position.y + Constants.GRID_CELL_SIZE * 1/8,
+                                location.position.y + Constants.GRID_CELL_SIZE * 1 / 8,
                                 location.position.x + Constants.GRID_CELL_SIZE / 4,
                                 location.position.y + Constants.GRID_CELL_SIZE / 2
                         );
@@ -67,45 +58,45 @@ public class Ship extends GridObject {
                     case VERTICAL:
                         // ^ triangle
                         renderer.triangle(
-                                location.position.x + Constants.GRID_CELL_SIZE * 1/8,
+                                location.position.x + Constants.GRID_CELL_SIZE * 1 / 8,
                                 location.position.y,
-                                location.position.x + Constants.GRID_CELL_SIZE * 7/8,
+                                location.position.x + Constants.GRID_CELL_SIZE * 7 / 8,
                                 location.position.y,
                                 location.position.x + Constants.GRID_CELL_SIZE / 2,
-                                location.position.y + Constants.GRID_CELL_SIZE * 3/4
+                                location.position.y + Constants.GRID_CELL_SIZE * 3 / 4
                         );
                         break;
                 }
-            } else if(index != locations().size - 1)
-                switch(orientation) {
+            } else if (index != locations().size - 1)
+                switch (orientation) {
                     case HORIZONTAL:
                         // middle section left-to-right
-                        renderer.rect(location.position.x, location.position.y + Constants.GRID_CELL_SIZE / 8, Constants.GRID_CELL_SIZE, Constants.GRID_CELL_SIZE * 6/8);
+                        renderer.rect(location.position.x, location.position.y + Constants.GRID_CELL_SIZE / 8, Constants.GRID_CELL_SIZE, Constants.GRID_CELL_SIZE * 6 / 8);
                         break;
                     case VERTICAL:
                         // middle section up-and-down
-                        renderer.rect(location.position.x + Constants.GRID_CELL_SIZE / 8, location.position.y, Constants.GRID_CELL_SIZE * 6/8, Constants.GRID_CELL_SIZE);
+                        renderer.rect(location.position.x + Constants.GRID_CELL_SIZE / 8, location.position.y, Constants.GRID_CELL_SIZE * 6 / 8, Constants.GRID_CELL_SIZE);
                         break;
                 }
             else {
-                switch(orientation) {
+                switch (orientation) {
                     case HORIZONTAL:
                         // > triangle
                         renderer.triangle(
-                                location.position.x + Constants.GRID_CELL_SIZE * 3/4,
+                                location.position.x + Constants.GRID_CELL_SIZE * 3 / 4,
                                 location.position.y + Constants.GRID_CELL_SIZE / 2,
                                 location.position.x,
-                                location.position.y + Constants.GRID_CELL_SIZE * 7/8,
+                                location.position.y + Constants.GRID_CELL_SIZE * 7 / 8,
                                 location.position.x,
-                                location.position.y + Constants.GRID_CELL_SIZE * 1/8
+                                location.position.y + Constants.GRID_CELL_SIZE * 1 / 8
                         );
                         break;
                     case VERTICAL:
                         // v triangle
                         renderer.triangle(
-                                location.position.x + Constants.GRID_CELL_SIZE * 1/8,
+                                location.position.x + Constants.GRID_CELL_SIZE * 1 / 8,
                                 location.position.y + Constants.GRID_CELL_SIZE,
-                                location.position.x + Constants.GRID_CELL_SIZE * 7/8,
+                                location.position.x + Constants.GRID_CELL_SIZE * 7 / 8,
                                 location.position.y + Constants.GRID_CELL_SIZE,
                                 location.position.x + Constants.GRID_CELL_SIZE / 2,
                                 location.position.y + Constants.GRID_CELL_SIZE / 4
@@ -130,12 +121,16 @@ public class Ship extends GridObject {
 
     public boolean allLocationsHit() {
         boolean allHit = true;
-        for (Cell cell: locations()) {
+        for (Cell cell : locations()) {
             if (cell.state == Cell.CellState.UNTOUCHED) {
                 allHit = false;
                 break;
             }
         }
         return allHit;
+    }
+
+    public enum Orientation {
+        VERTICAL, HORIZONTAL
     }
 }

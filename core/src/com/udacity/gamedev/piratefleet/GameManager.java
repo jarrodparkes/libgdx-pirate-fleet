@@ -32,7 +32,7 @@ public class GameManager {
         generateObjects(humanGrid, true);
         // setup com
         comPlayer = new Player();
-        comGrid = new Grid(new Vector2(Constants.WORLD_SIZE.x * 3/4, Constants.WORLD_SIZE.y * 0.55f));
+        comGrid = new Grid(new Vector2(Constants.WORLD_SIZE.x * 3 / 4, Constants.WORLD_SIZE.y * 0.55f));
         generateObjects(comGrid, Constants.SHOW_COMPUTER_OBJECTS);
         // remaining setup
         gameOver = false;
@@ -46,13 +46,13 @@ public class GameManager {
     public Array<GridObject> generateObjects(Grid grid, boolean revealed) {
         Array<GridObject> objects = new Array<GridObject>();
         // generate ships
-        for (Constants.ShipSize size: Constants.ShipSize.values()) {
+        for (Constants.ShipSize size : Constants.ShipSize.values()) {
             for (int i = 0; i < size.numRequired; ++i) {
                 int length = size.length;
                 Cell origin = grid.randomCell();
                 Ship.Orientation orientation = MathUtils.random(0, 1) == 0 ? Ship.Orientation.VERTICAL : Ship.Orientation.HORIZONTAL;
                 Ship ship = new Ship(grid, origin.getRow(), origin.getColumn(), length, orientation, revealed);
-                while(!validShip(ship)) {
+                while (!validShip(ship)) {
                     origin = grid.randomCell();
                     orientation = MathUtils.random(0, 1) == 0 ? Ship.Orientation.VERTICAL : Ship.Orientation.HORIZONTAL;
                     ship = new Ship(grid, origin.getRow(), origin.getColumn(), length, orientation, revealed);
@@ -64,7 +64,7 @@ public class GameManager {
         // generate mines
         for (int i = 0; i < Constants.MINE_LIMIT; i++) {
             Cell origin = grid.randomCell();
-            while(grid.cellAtLocation(origin.getRow(), origin.getColumn()).getObject() != null) {
+            while (grid.cellAtLocation(origin.getRow(), origin.getColumn()).getObject() != null) {
                 origin = grid.randomCell();
             }
             Mine mine = new Mine(grid, origin.getRow(), origin.getColumn(), revealed);
@@ -86,7 +86,7 @@ public class GameManager {
             }
         }
         // are all cells empty?
-        for (Cell cell: ship.locations()) {
+        for (Cell cell : ship.locations()) {
             if (cell.getObject() != null) {
                 return false;
             }
@@ -118,7 +118,7 @@ public class GameManager {
                 if (humanPlayer.getMovesRemaining() == 0) {
                     comPlayer.addMovesRemaining(1);
 
-                    while(comPlayer.getMovesRemaining() > 0) {
+                    while (comPlayer.getMovesRemaining() > 0) {
                         GridObject hitObject = comPlayer.makeRandomMove(humanGrid);
                         if (hitObject != null) {
                             if (checkGameOver(humanGrid)) {
@@ -140,7 +140,7 @@ public class GameManager {
 
     public boolean checkGameOver(Grid grid) {
         boolean result = true;
-        for (GridObject object: grid.getObjects()) {
+        for (GridObject object : grid.getObjects()) {
             if (object.getClass() == Ship.class && object.allLocationsHit() == false) {
                 return false;
             }

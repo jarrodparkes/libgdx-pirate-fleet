@@ -2,9 +2,6 @@ package com.udacity.gamedev.piratefleet;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.ObjectMap;
-import com.udacity.gamedev.piratefleet.grid.Ship;
 
 public class Constants {
 
@@ -39,16 +36,17 @@ public class Constants {
     public static final Color HIT_COLOR_2 = new Color(0.95f, 0.50f, 0.35f, 0.9f);
     public static final Color MISS_COLOR_1 = new Color(0.62f, 0.79f, 0.99f, 0.8f);
     public static final Color MISS_COLOR_2 = new Color(0.55f, 0.76f, 1.0f, 0.9f);
+    public static final int MINE_LIMIT = 2;
 
     public enum ShipSize {
         SMALL(2, 1), MEDIUM(3, 2), LARGE(4, 1), XLARGE(5, 1);
         int length;
         int numRequired;
+
         ShipSize(int length, int numRequired) {
             this.length = length;
             this.numRequired = numRequired;
         }
     }
-    public static final int MINE_LIMIT = 2;
 
 }

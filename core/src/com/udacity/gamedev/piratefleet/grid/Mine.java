@@ -20,7 +20,7 @@ public class Mine extends GridObject {
     }
 
     public void render(float delta, ShapeRenderer renderer) {
-        if (revealed) {
+        if (revealed == false) {
             return;
         }
 

@@ -42,19 +42,28 @@ public class GameManager {
 
     public Array<GridObject> generateComputerObjects(Grid grid) {
         Array<GridObject> objects = new Array<GridObject>();
+        // generate ships
         for (Constants.ShipSize size: Constants.ShipSize.values()) {
             for (int i = 0; i < size.numRequired; ++i) {
                 int length = size.length;
                 Cell origin = grid.randomCell();
                 Ship.Orientation orientation = MathUtils.random(0, 1) == 0 ? Ship.Orientation.VERTICAL : Ship.Orientation.HORIZONTAL;
-                Ship ship = new Ship(grid, origin.getRow(), origin.getColumn(), length, orientation, false);
+                Ship ship = new Ship(grid, origin.getRow(), origin.getColumn(), length, orientation, Constants.SHOW_COMPUTER_OBJECTS);
                 while(!validShip(ship)) {
                     origin = grid.randomCell();
                     orientation = MathUtils.random(0, 1) == 0 ? Ship.Orientation.VERTICAL : Ship.Orientation.HORIZONTAL;
-                    ship = new Ship(grid, origin.getRow(), origin.getColumn(), length, orientation, false);
+                    ship = new Ship(grid, origin.getRow(), origin.getColumn(), length, orientation, Constants.SHOW_COMPUTER_OBJECTS);
                 }
                 grid.addObject(ship);
             }
+        }
+        // generate mines
+        for (int i = 0; i < Constants.MINE_LIMIT; i++) {
+            Cell origin = grid.randomCell();
+            while(grid.cellAtLocation(origin.getRow(), origin.getColumn()).getObject() != null) {
+                origin = grid.randomCell();
+            }
+            grid.addObject(new Mine(grid, origin.getRow(), origin.getColumn(), Constants.SHOW_COMPUTER_OBJECTS));
         }
         return objects;
     }

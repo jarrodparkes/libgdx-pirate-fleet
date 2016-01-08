@@ -45,7 +45,7 @@ public class Ship extends GridObject {
         if (revealed == false) {
             return;
         }
-        
+
         renderer.begin(ShapeRenderer.ShapeType.Filled);
         renderer.setColor(Constants.SHIP_COLOR);
         // draw portion of ship in each location

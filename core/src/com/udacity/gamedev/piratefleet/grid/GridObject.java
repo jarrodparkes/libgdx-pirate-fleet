@@ -10,21 +10,29 @@ public abstract class GridObject {
 
     Grid grid;
     Cell origin;
+    boolean revealed;
 
-    public GridObject(Grid grid, Cell origin) {
+    public GridObject(Grid grid, Cell origin, boolean revealed) {
         this.grid = grid;
         this.origin = origin;
-    }
-
-    public Cell getOrigin() {
-        return origin;
+        this.revealed = revealed;
     }
 
     public Grid getGrid() {
         return grid;
     }
 
+    public Cell getOrigin() {
+        return origin;
+    }
+
+    public void setRevealed(boolean revealed) {
+        this.revealed = revealed;
+    }
+
     public abstract void render(float delta, ShapeRenderer renderer);
 
     public abstract Array<Cell> locations();
+
+    public abstract boolean allLocationsHit();
 }

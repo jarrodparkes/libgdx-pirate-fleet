@@ -19,8 +19,8 @@ public class Ship extends GridObject {
     int length;
     Orientation orientation;
 
-    public Ship(Grid grid, int r, int c, int length, Orientation orientation) {
-        super(grid, grid.cellAtLocation(r, c));
+    public Ship(Grid grid, int r, int c, int length, Orientation orientation, boolean revealed) {
+        super(grid, grid.cellAtLocation(r, c), revealed);
         this.length = length;
         this.orientation = orientation;
     }
@@ -42,6 +42,10 @@ public class Ship extends GridObject {
     }
 
     public void render(float delta, ShapeRenderer renderer) {
+        if (revealed == false) {
+            return;
+        }
+        
         renderer.begin(ShapeRenderer.ShapeType.Filled);
         renderer.setColor(Constants.SHIP_COLOR);
         // draw portion of ship in each location
@@ -63,12 +67,12 @@ public class Ship extends GridObject {
                     case VERTICAL:
                         // ^ triangle
                         renderer.triangle(
-                            location.position.x + Constants.GRID_CELL_SIZE * 1/8,
-                            location.position.y,
-                            location.position.x + Constants.GRID_CELL_SIZE * 7/8,
-                            location.position.y,
-                            location.position.x + Constants.GRID_CELL_SIZE / 2,
-                            location.position.y + Constants.GRID_CELL_SIZE * 3/4
+                                location.position.x + Constants.GRID_CELL_SIZE * 1/8,
+                                location.position.y,
+                                location.position.x + Constants.GRID_CELL_SIZE * 7/8,
+                                location.position.y,
+                                location.position.x + Constants.GRID_CELL_SIZE / 2,
+                                location.position.y + Constants.GRID_CELL_SIZE * 3/4
                         );
                         break;
                 }
@@ -122,5 +126,16 @@ public class Ship extends GridObject {
             cells.add(location);
         }
         return cells;
+    }
+
+    public boolean allLocationsHit() {
+        boolean allHit = true;
+        for (Cell cell: locations()) {
+            if (cell.state == Cell.CellState.UNTOUCHED) {
+                allHit = false;
+                break;
+            }
+        }
+        return allHit;
     }
 }

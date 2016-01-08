@@ -9,8 +9,8 @@ public class Mine extends GridObject {
 
     public static final String TAG = Mine.class.getName();
 
-    public Mine(Grid grid, int r, int c) {
-        super(grid, grid.cellAtLocation(r, c));
+    public Mine(Grid grid, int r, int c, boolean revealed) {
+        super(grid, grid.cellAtLocation(r, c), revealed);
     }
 
     @Override
@@ -20,6 +20,10 @@ public class Mine extends GridObject {
     }
 
     public void render(float delta, ShapeRenderer renderer) {
+        if (revealed) {
+            return;
+        }
+
         renderer.begin(ShapeRenderer.ShapeType.Filled);
         renderer.setColor(Constants.MINE_COLOR_1);
         // ^ triangle
@@ -73,5 +77,9 @@ public class Mine extends GridObject {
         Array<Cell> cells = new Array<Cell>();
         cells.add(grid.cellAtLocation(origin.getRow(), origin.getColumn()));
         return cells;
+    }
+
+    public boolean allLocationsHit() {
+        return origin.getState() == Cell.CellState.UNTOUCHED;
     }
 }

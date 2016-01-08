@@ -21,7 +21,7 @@ public class Mine extends GridObject {
     public void render(float delta, ShapeRenderer renderer) {
         renderer.begin(ShapeRenderer.ShapeType.Filled);
 
-        renderer.setColor(Constants.SHIP_COLOR);
+        renderer.setColor(Constants.MINE_COLOR);
 
         // circular center
         renderer.circle(

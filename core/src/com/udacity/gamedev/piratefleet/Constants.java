@@ -31,6 +31,7 @@ public class Constants {
     public static final String HARD_LABEL = "Hard";
 
     public static final Color SHIP_COLOR = new Color(0.31f, 0.31f, 0.31f, 1);
+    public static final Color MINE_COLOR = new Color(0.31f, 0.31f, 0.31f, 1);
 
     public enum ShipSize {
         SMALL(2, 1), MEDIUM(3, 2), LARGE(4, 1), XLARGE(5, 1);

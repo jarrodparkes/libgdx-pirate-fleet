@@ -26,13 +26,11 @@ public class GameManager {
         // setup human
         humanPlayer = new Player();
         humanGrid = new Grid(new Vector2(Constants.WORLD_SIZE.x / 4, Constants.WORLD_SIZE.y * 0.55f));
-        humanGrid.addObject(new Ship(humanGrid, 4, 0, 3, Ship.Orientation.HORIZONTAL, true));
-        humanGrid.addObject(new Ship(humanGrid, 2, 6, 3, Ship.Orientation.VERTICAL, true));
-        humanGrid.addObject(new Mine(humanGrid, 0, 3, true));
+        generateObjects(humanGrid, true);
         // setup com
         comPlayer = new Player();
         comGrid = new Grid(new Vector2(Constants.WORLD_SIZE.x * 3/4, Constants.WORLD_SIZE.y * 0.55f));
-        generateComputerObjects(comGrid);
+        generateObjects(comGrid, Constants.SHOW_COMPUTER_OBJECTS);
     }
 
     public void render(float delta, ShapeRenderer renderer) {
@@ -40,7 +38,7 @@ public class GameManager {
         comGrid.render(delta, renderer);
     }
 
-    public Array<GridObject> generateComputerObjects(Grid grid) {
+    public Array<GridObject> generateObjects(Grid grid, boolean revealed) {
         Array<GridObject> objects = new Array<GridObject>();
         // generate ships
         for (Constants.ShipSize size: Constants.ShipSize.values()) {
@@ -48,11 +46,11 @@ public class GameManager {
                 int length = size.length;
                 Cell origin = grid.randomCell();
                 Ship.Orientation orientation = MathUtils.random(0, 1) == 0 ? Ship.Orientation.VERTICAL : Ship.Orientation.HORIZONTAL;
-                Ship ship = new Ship(grid, origin.getRow(), origin.getColumn(), length, orientation, Constants.SHOW_COMPUTER_OBJECTS);
+                Ship ship = new Ship(grid, origin.getRow(), origin.getColumn(), length, orientation, revealed);
                 while(!validShip(ship)) {
                     origin = grid.randomCell();
                     orientation = MathUtils.random(0, 1) == 0 ? Ship.Orientation.VERTICAL : Ship.Orientation.HORIZONTAL;
-                    ship = new Ship(grid, origin.getRow(), origin.getColumn(), length, orientation, Constants.SHOW_COMPUTER_OBJECTS);
+                    ship = new Ship(grid, origin.getRow(), origin.getColumn(), length, orientation, revealed);
                 }
                 grid.addObject(ship);
             }
@@ -63,7 +61,7 @@ public class GameManager {
             while(grid.cellAtLocation(origin.getRow(), origin.getColumn()).getObject() != null) {
                 origin = grid.randomCell();
             }
-            grid.addObject(new Mine(grid, origin.getRow(), origin.getColumn(), Constants.SHOW_COMPUTER_OBJECTS));
+            grid.addObject(new Mine(grid, origin.getRow(), origin.getColumn(), revealed));
         }
         return objects;
     }

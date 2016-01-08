@@ -10,21 +10,27 @@ import com.udacity.gamedev.piratefleet.grid.Cell;
 import com.udacity.gamedev.piratefleet.grid.GridObject;
 import com.udacity.gamedev.piratefleet.grid.Mine;
 import com.udacity.gamedev.piratefleet.grid.Ship;
+import com.udacity.gamedev.piratefleet.player.Player;
 
 public class GameManager {
 
     public static final String TAG = GameManager.class.getName();
 
+    Player humanPlayer;
     Grid humanGrid;
+
+    Player comPlayer;
     Grid comGrid;
 
     public GameManager() {
-        // setup grids
+        // setup human
+        humanPlayer = new Player();
         humanGrid = new Grid(new Vector2(Constants.WORLD_SIZE.x / 4, Constants.WORLD_SIZE.y * 0.55f));
         humanGrid.addObject(new Ship(humanGrid, 4, 0, 3, Ship.Orientation.HORIZONTAL));
         humanGrid.addObject(new Ship(humanGrid, 2, 6, 3, Ship.Orientation.VERTICAL));
         humanGrid.addObject(new Mine(humanGrid, 0, 3));
-
+        // setup com
+        comPlayer = new Player();
         comGrid = new Grid(new Vector2(Constants.WORLD_SIZE.x * 3/4, Constants.WORLD_SIZE.y * 0.55f));
         generateComputerObjects(comGrid);
     }
@@ -74,14 +80,9 @@ public class GameManager {
     }
 
     public void handleTouch(Vector2 worldTouch) {
-        if (humanGrid.touchInGrid(worldTouch)) {
-            Cell targetCell = humanGrid.cellAtTouch(worldTouch);
-            targetCell.setState(Cell.CellState.HIT);
-        }
-
         if (comGrid.touchInGrid(worldTouch)) {
             Cell targetCell = comGrid.cellAtTouch(worldTouch);
-            targetCell.setState(Cell.CellState.HIT);
+            humanPlayer.attackGrid(comGrid, targetCell);
         }
     }
 }

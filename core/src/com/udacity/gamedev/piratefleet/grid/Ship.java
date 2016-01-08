@@ -1,5 +1,7 @@
 package com.udacity.gamedev.piratefleet.grid;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
@@ -42,8 +44,8 @@ public class Ship extends GridObject {
     public void render(float delta, ShapeRenderer renderer) {
         renderer.begin(ShapeRenderer.ShapeType.Filled);
         renderer.setColor(Constants.SHIP_COLOR);
+        // draw portion of ship in each location
         int index = 0;
-
         for (Cell location: locations()) {
             if (index == 0) {
                 switch(orientation) {

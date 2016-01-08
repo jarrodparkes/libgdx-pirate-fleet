@@ -20,12 +20,12 @@ public class GameManager {
 
     public GameManager() {
         // setup grids
-        humanGrid = new Grid(new Vector2(Constants.WORLD_SIZE.x / 4, Constants.WORLD_SIZE.y * 0.6f));
+        humanGrid = new Grid(new Vector2(Constants.WORLD_SIZE.x / 4, Constants.WORLD_SIZE.y * 0.55f));
         humanGrid.addObject(new Ship(humanGrid, 4, 0, 3, Ship.Orientation.HORIZONTAL));
         humanGrid.addObject(new Ship(humanGrid, 2, 6, 3, Ship.Orientation.VERTICAL));
         humanGrid.addObject(new Mine(humanGrid, 0, 3));
 
-        comGrid = new Grid(new Vector2(Constants.WORLD_SIZE.x * 3/4, Constants.WORLD_SIZE.y * 0.6f));
+        comGrid = new Grid(new Vector2(Constants.WORLD_SIZE.x * 3/4, Constants.WORLD_SIZE.y * 0.55f));
         generateComputerObjects(comGrid);
     }
 
@@ -76,12 +76,12 @@ public class GameManager {
     public void handleTouch(Vector2 worldTouch) {
         if (humanGrid.touchInGrid(worldTouch)) {
             Cell targetCell = humanGrid.cellAtTouch(worldTouch);
-            humanGrid.addObject(new Mine(humanGrid, targetCell.getRow(), targetCell.getColumn()));
+            targetCell.setState(Cell.CellState.HIT);
         }
 
         if (comGrid.touchInGrid(worldTouch)) {
             Cell targetCell = comGrid.cellAtTouch(worldTouch);
-            comGrid.addObject(new Mine(comGrid, targetCell.getRow(), targetCell.getColumn()));
+            targetCell.setState(Cell.CellState.HIT);
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.udacity.gamedev.piratefleet.grid;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Array;
 import com.udacity.gamedev.piratefleet.Constants;
@@ -20,16 +21,7 @@ public class Mine extends GridObject {
 
     public void render(float delta, ShapeRenderer renderer) {
         renderer.begin(ShapeRenderer.ShapeType.Filled);
-
-        renderer.setColor(Constants.MINE_COLOR);
-
-        // circular center
-        renderer.circle(
-                origin.position.x + Constants.GRID_CELL_SIZE / 2,
-                origin.position.y + Constants.GRID_CELL_SIZE / 2,
-                Constants.GRID_CELL_SIZE / 5,
-                10
-        );
+        renderer.setColor(Constants.MINE_COLOR_1);
         // ^ triangle
         renderer.triangle(
                 origin.position.x + Constants.GRID_CELL_SIZE * 3 / 8,
@@ -66,7 +58,14 @@ public class Mine extends GridObject {
                 origin.position.x + Constants.GRID_CELL_SIZE * 1/8,
                 origin.position.y + Constants.GRID_CELL_SIZE / 2
         );
-
+        renderer.setColor(Constants.MINE_COLOR_2);
+        // circular center
+        renderer.circle(
+                origin.position.x + Constants.GRID_CELL_SIZE / 2,
+                origin.position.y + Constants.GRID_CELL_SIZE / 2,
+                Constants.GRID_CELL_SIZE / 5,
+                10
+        );
         renderer.end();
     }
 

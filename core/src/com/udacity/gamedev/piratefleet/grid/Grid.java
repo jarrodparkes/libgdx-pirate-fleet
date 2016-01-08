@@ -67,12 +67,20 @@ public class Grid {
         // render cells
         for (Array<Cell> row: cells) {
             for (Cell cell: row) {
-                cell.render(delta, renderer);
+                cell.renderCell(delta, renderer);
             }
         }
         // render objects
         for (GridObject object: objects) {
             object.render(delta, renderer);
+        }
+        // render cells (hit/miss)
+        for (Array<Cell> row: cells) {
+            for (Cell cell: row) {
+                if (cell.getState() != Cell.CellState.UNTOUCHED) {
+                    cell.renderState(delta, renderer);
+                }
+            }
         }
     }
 

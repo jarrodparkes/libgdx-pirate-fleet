@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
@@ -83,7 +84,8 @@ public class PirateFleetScreen extends InputAdapter implements Screen {
 
     @Override
     public boolean touchDown (int screenX, int screenY, int pointer, int button) {
-
+        Vector2 worldTouch = viewport.unproject(new Vector2(screenX, screenY));
+        manager.handleTouch(worldTouch);
         return true;
     }
 

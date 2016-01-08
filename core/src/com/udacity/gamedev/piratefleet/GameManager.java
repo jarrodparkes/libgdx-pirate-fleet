@@ -72,4 +72,16 @@ public class GameManager {
         }
         return true;
     }
+
+    public void handleTouch(Vector2 worldTouch) {
+        if (humanGrid.touchInGrid(worldTouch)) {
+            Cell targetCell = humanGrid.cellAtTouch(worldTouch);
+            humanGrid.addObject(new Mine(humanGrid, targetCell.getRow(), targetCell.getColumn()));
+        }
+
+        if (comGrid.touchInGrid(worldTouch)) {
+            Cell targetCell = comGrid.cellAtTouch(worldTouch);
+            comGrid.addObject(new Mine(comGrid, targetCell.getRow(), targetCell.getColumn()));
+        }
+    }
 }

@@ -89,4 +89,31 @@ public class Grid {
         int randomCol = MathUtils.random(0, Constants.GRID_SIZE - 1);
         return cellAtLocation(randomRow, randomCol);
     }
+
+    public Vector2 getCenter() {
+        return center;
+    }
+
+    public boolean touchInGrid(Vector2 worldTouch) {
+        if (worldTouch.x < (center.x - (Constants.GRID_CELL_SIZE * 5)) ||
+                worldTouch.x > (center.x + (Constants.GRID_CELL_SIZE * 5))) {
+            return false;
+        }
+
+        if (worldTouch.y < (center.y - (Constants.GRID_CELL_SIZE * 5)) ||
+                worldTouch.y > (center.y + (Constants.GRID_CELL_SIZE * 5))) {
+            return false;
+        }
+        return true;
+    }
+
+    public Cell cellAtTouch(Vector2 worldTouch) {
+        float xNormalized = worldTouch.x - (center.x - (Constants.GRID_CELL_SIZE * 5));
+        int yIndex = (int)(xNormalized / Constants.GRID_CELL_SIZE);
+
+        float yNormalized = worldTouch.y - (center.y - (Constants.GRID_CELL_SIZE * 5));
+        int xIndex = (int)(Constants.GRID_SIZE - (yNormalized / Constants.GRID_CELL_SIZE));
+
+        return cellAtLocation(xIndex, yIndex);
+    }
 }

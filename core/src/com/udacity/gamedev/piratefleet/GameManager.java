@@ -102,14 +102,16 @@ public class GameManager {
                 // human make moves
                 if (comGrid.touchInGrid(worldTouch)) {
                     Cell targetCell = comGrid.cellAtTouch(worldTouch);
-                    GridObject hitObject = humanPlayer.makeMove(comGrid, targetCell);
-                    if (hitObject != null) {
-                        if (checkGameOver(comGrid)) {
-                            gameOver = true;
-                            Gdx.app.log(TAG, "game over!");
-                        }
-                        if (hitObject.getClass() == Mine.class) {
-                            comPlayer.addMovesRemaining(1);
+                    if (targetCell.getState() == Cell.CellState.UNTOUCHED) {
+                        GridObject hitObject = humanPlayer.makeMove(comGrid, targetCell);
+                        if (hitObject != null) {
+                            if (checkGameOver(comGrid)) {
+                                gameOver = true;
+                                Gdx.app.log(TAG, "game over!");
+                            }
+                            if (hitObject.getClass() == Mine.class) {
+                                comPlayer.addMovesRemaining(1);
+                            }
                         }
                     }
                 }

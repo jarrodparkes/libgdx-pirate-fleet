@@ -80,6 +80,6 @@ public class Mine extends GridObject {
     }
 
     public boolean allLocationsHit() {
-        return origin.getState() == Cell.CellState.UNTOUCHED;
+        return origin.getState() != Cell.CellState.UNTOUCHED;
     }
 }

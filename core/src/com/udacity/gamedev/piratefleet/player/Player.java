@@ -9,6 +9,16 @@ public class Player {
 
     public static final String TAG = Player.class.getName();
 
+    int movesRemaining;
+
+    public int getMovesRemaining() {
+        return movesRemaining;
+    }
+
+    public void setMovesRemaining(int movesRemaining) {
+        this.movesRemaining = movesRemaining;
+    }
+
     public boolean attackGrid(Grid grid, Cell atCell) {
         boolean hit = false;
         GridObject hitObject = null;
@@ -25,5 +35,18 @@ public class Player {
         }
 
         return hit;
+    }
+
+    public boolean makeRandomMove(Grid grid) {
+
+        Cell targetCell = grid.randomCell();
+
+        while(targetCell.getState() != Cell.CellState.UNTOUCHED) {
+            targetCell = grid.randomCell();
+        }
+
+        movesRemaining--;
+
+        return attackGrid(grid, targetCell);
     }
 }

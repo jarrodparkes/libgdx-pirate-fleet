@@ -22,6 +22,9 @@ public class GameManager {
     Player comPlayer;
     Grid comGrid;
 
+    Player movingPlayer;
+    boolean gameOver;
+
     public GameManager() {
         // setup human
         humanPlayer = new Player();
@@ -31,6 +34,9 @@ public class GameManager {
         comPlayer = new Player();
         comGrid = new Grid(new Vector2(Constants.WORLD_SIZE.x * 3/4, Constants.WORLD_SIZE.y * 0.55f));
         generateObjects(comGrid, Constants.SHOW_COMPUTER_OBJECTS);
+        // remaining setup
+        gameOver = false;
+        movingPlayer = humanPlayer;
     }
 
     public void render(float delta, ShapeRenderer renderer) {
@@ -61,7 +67,8 @@ public class GameManager {
             while(grid.cellAtLocation(origin.getRow(), origin.getColumn()).getObject() != null) {
                 origin = grid.randomCell();
             }
-            grid.addObject(new Mine(grid, origin.getRow(), origin.getColumn(), revealed));
+            Mine mine = new Mine(grid, origin.getRow(), origin.getColumn(), revealed);
+            grid.addObject(mine);
         }
         return objects;
     }
@@ -87,22 +94,53 @@ public class GameManager {
     }
 
     public void handleTouch(Vector2 worldTouch) {
-        if (comGrid.touchInGrid(worldTouch)) {
-            Cell targetCell = comGrid.cellAtTouch(worldTouch);
-            boolean hit = humanPlayer.attackGrid(comGrid, targetCell);
-            if (hit) {
-                boolean gameOver = true;
-                for (GridObject object: comGrid.getObjects()) {
-                    if (object.allLocationsHit() == false) {
-                        gameOver = false;
-                        break;
+        if (gameOver == false) {
+
+            if (movingPlayer == humanPlayer && comPlayer.getMovesRemaining() == 0) {
+
+                if (comGrid.touchInGrid(worldTouch)) {
+                    Cell targetCell = comGrid.cellAtTouch(worldTouch);
+                    boolean hit = humanPlayer.attackGrid(comGrid, targetCell);
+                    if (hit) {
+                        boolean gameOver = true;
+                        for (GridObject object: comGrid.getObjects()) {
+                            if (object.allLocationsHit() == false) {
+                                gameOver = false;
+                                break;
+                            }
+                        }
+
+                        if (gameOver) {
+                            Gdx.app.log(TAG, "game over!");
+                        }
                     }
                 }
 
-                if (gameOver) {
-                    Gdx.app.log(TAG, "game over!");
+                comPlayer.setMovesRemaining(3);
+
+                while(comPlayer.getMovesRemaining() > 0) {
+                    comPlayer.makeRandomMove(humanGrid);
                 }
             }
+
+//            if (comGrid.touchInGrid(worldTouch)) {
+//                Cell targetCell = comGrid.cellAtTouch(worldTouch);
+//                boolean hit = humanPlayer.attackGrid(comGrid, targetCell);
+//                if (hit) {
+//                    boolean gameOver = true;
+//                    for (GridObject object: comGrid.getObjects()) {
+//                        if (object.allLocationsHit() == false) {
+//                            gameOver = false;
+//                            break;
+//                        }
+//                    }
+//
+//                    if (gameOver) {
+//                        Gdx.app.log(TAG, "game over!");
+//                    }
+//                }
+//            }
         }
+
     }
 }

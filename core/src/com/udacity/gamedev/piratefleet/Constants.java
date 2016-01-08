@@ -30,7 +30,7 @@ public class Constants {
     public static final String MEDIUM_LABEL = "Medium";
     public static final String HARD_LABEL = "Hard";
 
-    public static final boolean SHOW_COMPUTER_OBJECTS = true;
+    public static final boolean SHOW_COMPUTER_OBJECTS = false;
 
     public static final Color SHIP_COLOR = new Color(0.42f, 0.42f, 0.42f, 1);
     public static final Color MINE_COLOR_1 = new Color(0.42f, 0.42f, 0.42f, 1);

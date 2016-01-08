@@ -22,12 +22,12 @@ public class GameManager {
     Player comPlayer;
     Grid comGrid;
 
-    Player movingPlayer;
     boolean gameOver;
 
     public GameManager() {
         // setup human
         humanPlayer = new Player();
+        humanPlayer.addMovesRemaining(1);
         humanGrid = new Grid(new Vector2(Constants.WORLD_SIZE.x / 4, Constants.WORLD_SIZE.y * 0.55f));
         generateObjects(humanGrid, true);
         // setup com
@@ -36,7 +36,6 @@ public class GameManager {
         generateObjects(comGrid, Constants.SHOW_COMPUTER_OBJECTS);
         // remaining setup
         gameOver = false;
-        movingPlayer = humanPlayer;
     }
 
     public void render(float delta, ShapeRenderer renderer) {
@@ -58,6 +57,7 @@ public class GameManager {
                     orientation = MathUtils.random(0, 1) == 0 ? Ship.Orientation.VERTICAL : Ship.Orientation.HORIZONTAL;
                     ship = new Ship(grid, origin.getRow(), origin.getColumn(), length, orientation, revealed);
                 }
+                Gdx.app.log(TAG, ship.toString());
                 grid.addObject(ship);
             }
         }
@@ -68,6 +68,7 @@ public class GameManager {
                 origin = grid.randomCell();
             }
             Mine mine = new Mine(grid, origin.getRow(), origin.getColumn(), revealed);
+            Gdx.app.log(TAG, mine.toString());
             grid.addObject(mine);
         }
         return objects;
@@ -96,51 +97,54 @@ public class GameManager {
     public void handleTouch(Vector2 worldTouch) {
         if (gameOver == false) {
 
-            if (movingPlayer == humanPlayer && comPlayer.getMovesRemaining() == 0) {
+            if (comPlayer.getMovesRemaining() == 0) {
 
+                // human make moves
                 if (comGrid.touchInGrid(worldTouch)) {
                     Cell targetCell = comGrid.cellAtTouch(worldTouch);
-                    boolean hit = humanPlayer.attackGrid(comGrid, targetCell);
-                    if (hit) {
-                        boolean gameOver = true;
-                        for (GridObject object: comGrid.getObjects()) {
-                            if (object.allLocationsHit() == false) {
-                                gameOver = false;
-                                break;
-                            }
-                        }
-
-                        if (gameOver) {
+                    GridObject hitObject = humanPlayer.makeMove(comGrid, targetCell);
+                    if (hitObject != null) {
+                        if (checkGameOver(comGrid)) {
+                            gameOver = true;
                             Gdx.app.log(TAG, "game over!");
+                        }
+                        if (hitObject.getClass() == Mine.class) {
+                            comPlayer.addMovesRemaining(1);
                         }
                     }
                 }
 
-                comPlayer.setMovesRemaining(3);
+                // com make moves
+                if (humanPlayer.getMovesRemaining() == 0) {
+                    comPlayer.addMovesRemaining(1);
 
-                while(comPlayer.getMovesRemaining() > 0) {
-                    comPlayer.makeRandomMove(humanGrid);
+                    while(comPlayer.getMovesRemaining() > 0) {
+                        GridObject hitObject = comPlayer.makeRandomMove(humanGrid);
+                        if (hitObject != null) {
+                            if (checkGameOver(humanGrid)) {
+                                gameOver = true;
+                                Gdx.app.log(TAG, "game over!");
+                            }
+                            if (hitObject.getClass() == Mine.class) {
+                                humanPlayer.addMovesRemaining(1);
+                            }
+                        }
+                    }
+
+                    humanPlayer.addMovesRemaining(1);
                 }
             }
-
-//            if (comGrid.touchInGrid(worldTouch)) {
-//                Cell targetCell = comGrid.cellAtTouch(worldTouch);
-//                boolean hit = humanPlayer.attackGrid(comGrid, targetCell);
-//                if (hit) {
-//                    boolean gameOver = true;
-//                    for (GridObject object: comGrid.getObjects()) {
-//                        if (object.allLocationsHit() == false) {
-//                            gameOver = false;
-//                            break;
-//                        }
-//                    }
-//
-//                    if (gameOver) {
-//                        Gdx.app.log(TAG, "game over!");
-//                    }
-//                }
-//            }
         }
 
+    }
+
+    public boolean checkGameOver(Grid grid) {
+        boolean result = true;
+        for (GridObject object: grid.getObjects()) {
+            if (object.getClass() == Ship.class && object.allLocationsHit() == false) {
+                return false;
+            }
+        }
+        return result;
     }
 }

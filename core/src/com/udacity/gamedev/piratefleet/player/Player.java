@@ -15,11 +15,11 @@ public class Player {
         return movesRemaining;
     }
 
-    public void setMovesRemaining(int movesRemaining) {
-        this.movesRemaining = movesRemaining;
+    public void addMovesRemaining(int moves) {
+        movesRemaining += moves;
     }
 
-    public boolean attackGrid(Grid grid, Cell atCell) {
+    public GridObject makeMove(Grid grid, Cell atCell) {
         boolean hit = false;
         GridObject hitObject = null;
         if (grid.cellAtLocation(atCell.getRow(), atCell.getColumn()).getObject() != null) {
@@ -34,10 +34,12 @@ public class Player {
             hitObject.setRevealed(true);
         }
 
-        return hit;
+        movesRemaining--;
+
+        return hitObject;
     }
 
-    public boolean makeRandomMove(Grid grid) {
+    public GridObject makeRandomMove(Grid grid) {
 
         Cell targetCell = grid.randomCell();
 
@@ -45,8 +47,6 @@ public class Player {
             targetCell = grid.randomCell();
         }
 
-        movesRemaining--;
-
-        return attackGrid(grid, targetCell);
+        return makeMove(grid, targetCell);
     }
 }

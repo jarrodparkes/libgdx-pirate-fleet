@@ -12,7 +12,7 @@ public class Constants {
 
     public static final int GRID_SIZE = 10;
     public static final Color GRID_CELL_COLOR = Color.WHITE;
-    public static final float GRID_CELL_SIZE = WORLD_SIZE.x / 32;
+    public static final float GRID_CELL_SIZE = WORLD_SIZE.x / 26;
 
     public static final float HUD_FONT_REFERENCE_SCREEN_WIDTH = 480.0f;
 

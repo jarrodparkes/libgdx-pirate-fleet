@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.Array;
 import com.udacity.gamedev.piratefleet.grid.Grid;
 import com.udacity.gamedev.piratefleet.grid.Cell;
 import com.udacity.gamedev.piratefleet.grid.GridObject;
+import com.udacity.gamedev.piratefleet.grid.Mine;
 import com.udacity.gamedev.piratefleet.grid.Ship;
 
 public class GameManager {
@@ -19,11 +20,12 @@ public class GameManager {
 
     public GameManager() {
         // setup grids
-        humanGrid = new Grid(new Vector2(Constants.WORLD_SIZE.x / 4, Constants.WORLD_SIZE.y * 5/8));
+        humanGrid = new Grid(new Vector2(Constants.WORLD_SIZE.x / 4, Constants.WORLD_SIZE.y * 0.6f));
         humanGrid.addObject(new Ship(humanGrid, 4, 0, 3, Ship.Orientation.HORIZONTAL));
         humanGrid.addObject(new Ship(humanGrid, 2, 6, 3, Ship.Orientation.VERTICAL));
+        humanGrid.addObject(new Mine(humanGrid, 0, 3));
 
-        comGrid = new Grid(new Vector2(Constants.WORLD_SIZE.x * 3/4, Constants.WORLD_SIZE.y * 5/8));
+        comGrid = new Grid(new Vector2(Constants.WORLD_SIZE.x * 3/4, Constants.WORLD_SIZE.y * 0.6f));
         generateComputerObjects(comGrid);
     }
 

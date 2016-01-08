@@ -48,7 +48,7 @@ public class Grid {
         if (locationsFree(targetLocations)) {
             objects.add(object);
             object.grid = this;
-            for (Cell location: targetLocations) {
+            for (Cell location : targetLocations) {
                 Cell targetCell = cells.get(location.row).get(location.col);
                 targetCell.object = object;
             }
@@ -58,7 +58,7 @@ public class Grid {
     }
 
     public boolean locationsFree(Array<Cell> locations) {
-        for (Cell location: locations) {
+        for (Cell location : locations) {
             Cell targetCell = cells.get(location.row).get(location.col);
             if (targetCell.object != null) {
                 return false;
@@ -69,18 +69,18 @@ public class Grid {
 
     public void render(float delta, ShapeRenderer renderer) {
         // render cells
-        for (Array<Cell> row: cells) {
-            for (Cell cell: row) {
+        for (Array<Cell> row : cells) {
+            for (Cell cell : row) {
                 cell.renderCell(delta, renderer);
             }
         }
         // render objects
-        for (GridObject object: objects) {
+        for (GridObject object : objects) {
             object.render(delta, renderer);
         }
         // render cells (hit/miss)
-        for (Array<Cell> row: cells) {
-            for (Cell cell: row) {
+        for (Array<Cell> row : cells) {
+            for (Cell cell : row) {
                 if (cell.getState() != Cell.CellState.UNTOUCHED) {
                     cell.renderState(delta, renderer);
                 }
@@ -121,10 +121,10 @@ public class Grid {
 
     public Cell cellAtTouch(Vector2 worldTouch) {
         float xNormalized = worldTouch.x - (center.x - (Constants.GRID_CELL_SIZE * 5));
-        int yIndex = (int)(xNormalized / Constants.GRID_CELL_SIZE);
+        int yIndex = (int) (xNormalized / Constants.GRID_CELL_SIZE);
 
         float yNormalized = worldTouch.y - (center.y - (Constants.GRID_CELL_SIZE * 5));
-        int xIndex = (int)(Constants.GRID_SIZE - (yNormalized / Constants.GRID_CELL_SIZE));
+        int xIndex = (int) (Constants.GRID_SIZE - (yNormalized / Constants.GRID_CELL_SIZE));
 
         return cellAtLocation(xIndex, yIndex);
     }

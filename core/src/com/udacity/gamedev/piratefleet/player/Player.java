@@ -1,6 +1,5 @@
 package com.udacity.gamedev.piratefleet.player;
 
-import com.badlogic.gdx.Gdx;
 import com.udacity.gamedev.piratefleet.grid.Cell;
 import com.udacity.gamedev.piratefleet.grid.Grid;
 import com.udacity.gamedev.piratefleet.grid.GridObject;
@@ -43,7 +42,7 @@ public class Player {
 
         Cell targetCell = grid.randomCell();
 
-        while(targetCell.getState() != Cell.CellState.UNTOUCHED) {
+        while (targetCell.getState() != Cell.CellState.UNTOUCHED) {
             targetCell = grid.randomCell();
         }
 

@@ -12,8 +12,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
-import java.util.Arrays;
-
 public class PirateFleetScreen extends InputAdapter implements Screen {
 
     public static final String TAG = PirateFleetScreen.class.getName();
@@ -36,7 +34,7 @@ public class PirateFleetScreen extends InputAdapter implements Screen {
     }
 
     @Override
-    public void show () {
+    public void show() {
         // setup world
         renderer = new ShapeRenderer();
         renderer.setAutoShapeType(true);
@@ -51,14 +49,14 @@ public class PirateFleetScreen extends InputAdapter implements Screen {
     }
 
     @Override
-    public void resize (int width, int height) {
+    public void resize(int width, int height) {
         viewport.update(width, height, true);
         textViewport.update(width, height, true);
         font.getData().setScale(Math.min(width, height) / Constants.HUD_FONT_REFERENCE_SCREEN_WIDTH * 2);
     }
 
     @Override
-    public void render (float delta) {
+    public void render(float delta) {
         // clear screen
         Gdx.gl.glClearColor(Constants.BACKGROUND_COLOR.r, Constants.BACKGROUND_COLOR.g, Constants.BACKGROUND_COLOR.b, Constants.BACKGROUND_COLOR.a);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -76,25 +74,28 @@ public class PirateFleetScreen extends InputAdapter implements Screen {
     }
 
     @Override
-    public void dispose () {
+    public void dispose() {
         renderer.dispose();
         batch.dispose();
         font.dispose();
     }
 
     @Override
-    public boolean touchDown (int screenX, int screenY, int pointer, int button) {
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         Vector2 worldTouch = viewport.unproject(new Vector2(screenX, screenY));
         manager.handleTouch(worldTouch);
         return true;
     }
 
     @Override
-    public void pause() {}
+    public void pause() {
+    }
 
     @Override
-    public void resume() {}
+    public void resume() {
+    }
 
     @Override
-    public void hide() {}
+    public void hide() {
+    }
 }

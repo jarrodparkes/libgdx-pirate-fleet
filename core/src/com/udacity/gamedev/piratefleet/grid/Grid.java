@@ -27,10 +27,10 @@ public class Grid {
         Vector2 offset = new Vector2(topLeftCorner);
 
         // create cells with location
-        for (int r = 0; r < 10; r++) {
+        for (int r = 0; r < Constants.GRID_SIZE; r++) {
             offset.x = topLeftCorner.x;
             Array<Cell> row = new Array<Cell>();
-            for (int c = 0; c < 10; c++) {
+            for (int c = 0; c < Constants.GRID_SIZE; c++) {
                 row.add(new Cell(new Vector2(offset), r, c));
                 offset.x += cellSize;
             }
@@ -107,23 +107,23 @@ public class Grid {
     }
 
     public boolean touchInGrid(Vector2 worldTouch) {
-        if (worldTouch.x < (center.x - (Constants.GRID_CELL_SIZE * 5)) ||
-                worldTouch.x > (center.x + (Constants.GRID_CELL_SIZE * 5))) {
+        if (worldTouch.x < (center.x - (Constants.GRID_CELL_SIZE * Constants.GRID_SIZE / 2)) ||
+                worldTouch.x > (center.x + (Constants.GRID_CELL_SIZE * Constants.GRID_SIZE / 2))) {
             return false;
         }
 
-        if (worldTouch.y < (center.y - (Constants.GRID_CELL_SIZE * 5)) ||
-                worldTouch.y > (center.y + (Constants.GRID_CELL_SIZE * 5))) {
+        if (worldTouch.y < (center.y - (Constants.GRID_CELL_SIZE * Constants.GRID_SIZE / 2)) ||
+                worldTouch.y > (center.y + (Constants.GRID_CELL_SIZE * Constants.GRID_SIZE / 2))) {
             return false;
         }
         return true;
     }
 
     public Cell cellAtTouch(Vector2 worldTouch) {
-        float xNormalized = worldTouch.x - (center.x - (Constants.GRID_CELL_SIZE * 5));
+        float xNormalized = worldTouch.x - (center.x - (Constants.GRID_CELL_SIZE * Constants.GRID_SIZE / 2));
         int yIndex = (int) (xNormalized / Constants.GRID_CELL_SIZE);
 
-        float yNormalized = worldTouch.y - (center.y - (Constants.GRID_CELL_SIZE * 5));
+        float yNormalized = worldTouch.y - (center.y - (Constants.GRID_CELL_SIZE * Constants.GRID_SIZE / 2));
         int xIndex = (int) (Constants.GRID_SIZE - (yNormalized / Constants.GRID_CELL_SIZE));
 
         return cellAtLocation(xIndex, yIndex);

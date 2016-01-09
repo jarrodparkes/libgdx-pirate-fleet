@@ -28,11 +28,11 @@ public class GameManager {
         // setup human
         humanPlayer = new Player();
         humanPlayer.addMovesRemaining(1);
-        humanGrid = new Grid(new Vector2(Constants.WORLD_SIZE.x / 4, Constants.WORLD_SIZE.y * 0.55f));
+        humanGrid = new Grid(new Vector2(Constants.WORLD_SIZE.x / 4, Constants.WORLD_SIZE.y * 0.575f));
         generateObjects(humanGrid, true);
         // setup com
         comPlayer = new Player();
-        comGrid = new Grid(new Vector2(Constants.WORLD_SIZE.x * 3 / 4, Constants.WORLD_SIZE.y * 0.55f));
+        comGrid = new Grid(new Vector2(Constants.WORLD_SIZE.x * 3 / 4, Constants.WORLD_SIZE.y * 0.575f));
         generateObjects(comGrid, Constants.SHOW_COMPUTER_OBJECTS);
         // remaining setup
         gameOver = false;

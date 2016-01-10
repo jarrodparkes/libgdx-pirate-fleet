@@ -120,10 +120,10 @@ public class Grid {
     }
 
     public Cell cellAtTouch(Vector2 worldTouch) {
-        float xNormalized = worldTouch.x - (center.x - (Constants.GRID_CELL_SIZE * Constants.GRID_SIZE / 2));
+        float xNormalized = worldTouch.x - (center.x - (Constants.GRID_CELL_SIZE * (Constants.GRID_SIZE / 2)));
         int yIndex = (int) (xNormalized / Constants.GRID_CELL_SIZE);
 
-        float yNormalized = worldTouch.y - (center.y - (Constants.GRID_CELL_SIZE * Constants.GRID_SIZE / 2));
+        float yNormalized = worldTouch.y - (center.y - (Constants.GRID_CELL_SIZE * (Constants.GRID_SIZE / 2)));
         int xIndex = (int) (Constants.GRID_SIZE - (yNormalized / Constants.GRID_CELL_SIZE));
 
         return cellAtLocation(xIndex, yIndex);
